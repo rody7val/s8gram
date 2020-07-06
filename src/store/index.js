@@ -38,14 +38,20 @@ const store = new Vuex.Store({
   actions: {
     async login({ dispatch }, form) {
       // sign user in
-      const { user } = await fb.auth.signInWithEmailAndPassword(form.email, form.password)
+      const { user } = await fb.auth.signInWithEmailAndPassword(form.email, form.password).catch(function(error) {
+        // Handle Errors here.
+        alert(error.message)
+      })
 
       // fetch user profile and set in state
       dispatch('fetchUserProfile', user)
     },
     async signup({ dispatch }, form) {
       // sign user up
-      const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
+      const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password).catch(function(error) {
+        // Handle Errors here.
+        alert(error.message)
+      })
 
       // create user object in userCollections
       await fb.usersCollection.doc(user.uid).set({
